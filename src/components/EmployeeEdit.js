@@ -2,11 +2,13 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import EmployeeForm from './EmployeeForm'
 import Communications from 'react-native-communications';
-import { Card, CardSection, Button } from './common';
+import { Card, CardSection, Button, Confirm } from './common';
 import { employeeUpdate, employeeSave } from '../actions';
 import { connect } from 'react-redux';
 
 class EmployeeEdit extends Component {
+    state = { showModal: false }
+
     componentWillMount() {
        _.each(this.props.employee, (value, prop) => {
            this.props.employeeUpdate({ prop, value });
@@ -38,6 +40,16 @@ class EmployeeEdit extends Component {
                  <Button onPress={this.onTextPress.bind(this)}>
                  Text Schedule
                  </Button>
+            </CardSection>
+
+            <CardSection>
+                <Button onPress={() => this.setState({ showModal: !this.setState.showModal })}>
+                    Fire Employee
+                </Button>
+            <Confirm
+            visible={this.state.showModal}>
+                Are you sure you want to fire?
+            </Confirm>
             </CardSection>
              </Card>
         );
